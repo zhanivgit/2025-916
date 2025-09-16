@@ -1,0 +1,41 @@
+# Keil MDK-ARM generated files
+*.uvoptx
+*.uvprojx
+*.uvguix.*
+*.bak
+*.sbs
+*.suo
+*.user
+*.o
+*.d
+*.axf
+*.hex
+*.map
+*.lst
+*.htm
+*.sct
+*.dep
+*.crf
+*.fed
+
+# STM32CubeIDE generated files (if applicable)
+.project
+.cproject
+.mxproject
+.settings/
+.metadata/
+
+# VSCode generated files
+.vscode/
+
+# Operating System generated files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+build/
+Debug/
+Release/
+
+# External libraries/dependencies
+Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/
