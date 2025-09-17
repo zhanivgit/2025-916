@@ -663,17 +663,12 @@ int OLED_PrintSignedVal(uint8_t x, uint8_t y, int32_t val)
  * 2023/08/03        V1.0     韦东山       创建
  ***********************************************************************/
 void OLED_Test(void)
-{
+{   
     OLED_Init();
 	// 清屏
 	OLED_Clear();
-    
 	while (1)
-	{
-		// 在(0, 0)打印'A'
-		OLED_PutChar(0, 0, 'A');
-		// 在(1, 0)打印'Y'
-		OLED_PutChar(1, 0, 'Y');
+	{   
 		// 在第0列第2页打印一个字符串"Hello World!"
 		OLED_PrintString(0, 2, "Hello World!");
 	}

@@ -16,15 +16,17 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
-
+#include  "driver_lcd.h"
+#include  "driver_led.h"
+#include "driver_timer.h"
+#include "driver_active_buzzer.h"
+#include "driver_oled.h"
 /* Includes ------------------------------------------------------------------*/
 #include "FreeRTOS.h"
 #include "task.h"
 #include "main.h"
 #include "cmsis_os.h"
-#include  "driver_lcd.h"
-#include "driver_led.h"
-#include "driver_timer.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -47,7 +49,14 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
+static StackType_t g_pucStackofledtask[128];
+static StaticTask_t g_xStaticofledtask;
+static TaskHandle_t g_xHandleofledtask;
 
+static StackType_t g_pucStackofoledtask[128];
+static StaticTask_t g_xStaticofoledtask;
+static TaskHandle_t g_xHandleofoledtask;
+/* USER CODE END Variables */
 /* USER CODE END Variables */
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
@@ -63,15 +72,7 @@ const osThreadAttr_t defaultTask_attributes = {
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void *argument);
-void my_task(void *argument)
-{
-    while (1)
-    {  
-      LCD_Test();
-      /* code */
-    }
-    
-}
+
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
 /**
@@ -107,7 +108,11 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
-  xTaskCreate(my_task, "my_freeRTOS_01_task", 128, NULL, osPriorityNormal, NULL);
+  //动态分配
+  //ret=xTaskCreate(Led_Test, "Led_Test", 128, NULL, osPriorityNormal, NULL);
+  //静态分配
+  g_xHandleofledtask=xTaskCreateStatic(Led_Test, "Led_Test", 128, NULL, osPriorityNormal, g_pucStackofledtask, &g_xStaticofledtask);
+  g_xHandleofoledtask=xTaskCreateStatic(LCD_Test, "OLED_Test", 128, NULL, osPriorityNormal, g_pucStackofoledtask, &g_xStaticofoledtask);
   /* USER CODE BEGIN RTOS_EVENTS */
   /* add events, ... */
   /* USER CODE END RTOS_EVENTS */
@@ -122,13 +127,16 @@ void MX_FREERTOS_Init(void) {
   */
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void *argument)
-{
+{  
+  LCD_Init();
+  LCD_Clear();
+  
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
   for(;;)
   {
     //osDelay(1);
-	Led_Test();
+	// Led_Test(); 
   }
   /* USER CODE END StartDefaultTask */
 }
